@@ -1,0 +1,39 @@
+# ── Backend Dockerfile ────────────────────────────────────────
+# Multi-stage: development + production
+FROM node:20-alpine AS base
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+# ── Development ───────────────────────────────────────────────
+FROM node:20-alpine AS development
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 4000
+CMD ["npm", "run", "dev"]
+
+# ── Production ────────────────────────────────────────────────
+FROM node:20-alpine AS production
+WORKDIR /app
+
+# Non-root user
+RUN addgroup -g 1001 -S nodejs && adduser -S nodeuser -u 1001
+
+COPY --from=base /app/node_modules ./node_modules
+COPY --chown=nodeuser:nodejs . .
+
+# Remove dev files
+RUN rm -rf tests .env.example
+
+USER nodeuser
+EXPOSE 4000
+
+# Graceful shutdown
+STOPSIGNAL SIGTERM
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD wget -qO- http://localhost:4000/health || exit 1
+
+CMD ["node", "src/app.js"]

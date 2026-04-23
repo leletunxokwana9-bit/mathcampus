@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #03070F;
+    color: #E8EDF5;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070D1A; }
+  ::-webkit-scrollbar-thumb { background: #172545; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00D4FF; }
+  ::selection { background: rgba(0,212,255,0.15); color: #00D4FF; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 font-display font-bold rounded-xl px-6 py-3 text-sm transition-all duration-200;
+    background: linear-gradient(135deg, #00D4FF, #A855F7);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,212,255,0.4);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 font-body font-medium rounded-xl px-5 py-3 text-sm transition-all duration-200;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,212,255,0.12);
+    color: #E8EDF5;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(0,212,255,0.3);
+    background: rgba(0,212,255,0.06);
+  }
+
+  .card {
+    @apply rounded-2xl;
+    background: #0C1526;
+    border: 1px solid rgba(0,212,255,0.12);
+  }
+  .card-hover {
+    @apply card transition-all duration-200 cursor-pointer;
+  }
+  .card-hover:hover {
+    border-color: rgba(0,212,255,0.3);
+    transform: translateY(-3px);
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold font-mono uppercase tracking-wider;
+  }
+
+  .input {
+    @apply w-full rounded-xl px-4 py-3 text-sm font-body transition-all duration-150;
+    background: #111E35;
+    border: 1px solid rgba(0,212,255,0.12);
+    color: #E8EDF5;
+  }
+  .input::placeholder { color: #3A4E68; }
+  .input:focus {
+    outline: none;
+    border-color: #00D4FF;
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.15);
+  }
+
+  .tab-active {
+    color: #00D4FF;
+    border-bottom: 2px solid #00D4FF;
+  }
+
+  .progress-bar {
+    @apply rounded-full overflow-hidden;
+    background: #172545;
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-700;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #00D4FF 0%, #A855F7 50%, #FFB800 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glow-cyan { box-shadow: 0 0 30px rgba(0,212,255,0.4); }
+  .glow-gold  { box-shadow: 0 0 30px rgba(255,184,0,0.4); }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
+
+/* Page transitions */
+.page-enter { animation: fadeUp 0.4s ease forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.4); }
+  50%       { box-shadow: 0 0 40px rgba(0,212,255,0.6); }
+}
+
+.animate-float   { animation: float 6s ease-in-out infinite; }
+.animate-fadeIn  { animation: fadeIn 0.3s ease forwards; }
+.animate-fadeUp  { animation: fadeUp 0.5s ease forwards; }
+.animate-spin    { animation: spin 1s linear infinite; }
