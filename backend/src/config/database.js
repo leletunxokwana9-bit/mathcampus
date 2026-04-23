@@ -4,13 +4,11 @@ let pool
 
 const connectDB = async () => {
   pool = new Pool({
-    host:     process.env.DB_HOST || 'localhost',
-    port:     parseInt(process.env.DB_PORT) || 5432,
-    database: process.env.DB_NAME || 'mathcampus',
-    user:     process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD,
-    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-    max: 20,               // max connections in pool
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    },
+    max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
   })
@@ -19,23 +17,14 @@ const connectDB = async () => {
     console.error('Unexpected database pool error:', err)
   })
 
-  // Test connection
   const client = await pool.connect()
   console.log('✅ PostgreSQL connected')
   client.release()
+
   return pool
 }
 
-/**
- * Execute a parameterised query.
- * @param {string} text  SQL string
- * @param {any[]}  params
- */
 const query = (text, params) => pool.query(text, params)
-
-/**
- * Get a client from the pool (for transactions).
- */
 const getClient = () => pool.connect()
 
 module.exports = { connectDB, query, getClient }
