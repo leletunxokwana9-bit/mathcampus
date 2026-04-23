@@ -21,8 +21,7 @@ const postRoutes       = require('./routes/posts')
 const leaderboardRoutes = require('./routes/leaderboard')
 const uploadRoutes     = require('./routes/uploads')
 
-const errorHandler = require('./middleware/errorHandler')
-const notFound = require('./middleware/notFound')
+const { errorHandler, notFound } = require('./middleware/errorHandler')
 
 const app  = express()
 const PORT = process.env.PORT || 4000
