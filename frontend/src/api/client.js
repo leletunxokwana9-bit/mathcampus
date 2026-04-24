@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'https://mathcampus-backend.onrender.com/v1',
   withCredentials: true, // send httpOnly refresh-token cookie
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
